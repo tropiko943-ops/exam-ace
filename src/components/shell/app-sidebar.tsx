@@ -24,6 +24,7 @@ import {
   ListChecks,
   BarChart3,
   Activity,
+  Award,
   LogOut,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -37,9 +38,10 @@ const navByRole: Record<AppRole, { label: string; items: { title: string; url: s
       label: "Review",
       items: [
         { title: "Dashboard", url: "/app", icon: LayoutDashboard },
-        { title: "Take exam", url: "/app/exam", icon: BookOpen },
+        { title: "Take exam", url: "/app/exam/start", icon: BookOpen },
         { title: "History", url: "/app/history", icon: History },
         { title: "Leaderboard", url: "/app/leaderboard", icon: Trophy },
+        { title: "Achievements", url: "/app/achievements", icon: Award },
       ],
     },
     {
