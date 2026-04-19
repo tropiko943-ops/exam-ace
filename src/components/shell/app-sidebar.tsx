@@ -51,31 +51,31 @@ const navByRole: Record<AppRole, { label: string; items: { title: string; url: s
     {
       label: "Question bank",
       items: [
-        { title: "Dashboard", url: "/app", icon: LayoutDashboard },
-        { title: "OCR upload", url: "/app/ocr", icon: ScanText },
-        { title: "Review queue", url: "/app/review", icon: ListChecks },
-        { title: "Questions", url: "/app/questions", icon: BookOpen },
-        { title: "Item analysis", url: "/app/analysis", icon: BarChart3 },
+        { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
+        { title: "OCR upload", url: "/admin/ocr", icon: ScanText },
+        { title: "Review queue", url: "/admin/review", icon: ListChecks },
+        { title: "Questions", url: "/admin/questions", icon: BookOpen },
+        { title: "Item analysis", url: "/admin/analysis", icon: BarChart3 },
       ],
     },
     {
       label: "Account",
-      items: [{ title: "Settings", url: "/app/settings", icon: Settings }],
+      items: [{ title: "Settings", url: "/admin/settings", icon: Settings }],
     },
   ],
   "super-admin": [
     {
       label: "Administration",
       items: [
-        { title: "Dashboard", url: "/app", icon: LayoutDashboard },
-        { title: "Users", url: "/app/users", icon: Users },
-        { title: "System logs", url: "/app/logs", icon: Activity },
-        { title: "Statistics", url: "/app/stats", icon: BarChart3 },
+        { title: "Dashboard", url: "/super-admin", icon: LayoutDashboard },
+        { title: "Users", url: "/super-admin/users", icon: Users },
+        { title: "System logs", url: "/super-admin/logs", icon: Activity },
+        { title: "Statistics", url: "/super-admin/stats", icon: BarChart3 },
       ],
     },
     {
       label: "Account",
-      items: [{ title: "Settings", url: "/app/settings", icon: Settings }],
+      items: [{ title: "Settings", url: "/super-admin/settings", icon: Settings }],
     },
   ],
 };
@@ -85,10 +85,11 @@ export function AppSidebar({ role = "student" }: { role?: AppRole }) {
   const collapsed = state === "collapsed";
   const groups = navByRole[role];
 
+  const homeUrl = role === "admin" ? "/admin" : role === "super-admin" ? "/super-admin" : "/app";
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border p-4">
-        <Link to="/app" className="flex items-center">
+        <Link to={homeUrl} className="flex items-center">
           {collapsed ? <Logo showText={false} size="sm" variant="light" /> : <Logo size="sm" variant="light" />}
         </Link>
       </SidebarHeader>
@@ -104,7 +105,7 @@ export function AppSidebar({ role = "student" }: { role?: AppRole }) {
                     <SidebarMenuButton asChild>
                       <NavLink
                         to={item.url}
-                        end={item.url === "/app"}
+                        end={["/app", "/admin", "/super-admin"].includes(item.url)}
                         className="hover:bg-sidebar-accent"
                         activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
                       >
