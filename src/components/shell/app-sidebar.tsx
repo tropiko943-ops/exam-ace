@@ -85,10 +85,11 @@ export function AppSidebar({ role = "student" }: { role?: AppRole }) {
   const collapsed = state === "collapsed";
   const groups = navByRole[role];
 
+  const homeUrl = role === "admin" ? "/admin" : role === "super-admin" ? "/super-admin" : "/app";
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader className="border-b border-sidebar-border p-4">
-        <Link to="/app" className="flex items-center">
+        <Link to={homeUrl} className="flex items-center">
           {collapsed ? <Logo showText={false} size="sm" variant="light" /> : <Logo size="sm" variant="light" />}
         </Link>
       </SidebarHeader>
@@ -104,7 +105,7 @@ export function AppSidebar({ role = "student" }: { role?: AppRole }) {
                     <SidebarMenuButton asChild>
                       <NavLink
                         to={item.url}
-                        end={item.url === "/app"}
+                        end={["/app", "/admin", "/super-admin"].includes(item.url)}
                         className="hover:bg-sidebar-accent"
                         activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
                       >
