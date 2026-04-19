@@ -21,6 +21,14 @@ import AdminOcr from "./pages/admin/OcrUpload.tsx";
 import AdminReview from "./pages/admin/Review.tsx";
 import AdminQuestions from "./pages/admin/Questions.tsx";
 import AdminAnalysis from "./pages/admin/Analysis.tsx";
+import StudentDashboard from "./pages/student/Dashboard.tsx";
+import StudentSettings from "./pages/student/Settings.tsx";
+import ExamStart from "./pages/student/ExamStart.tsx";
+import ExamSession from "./pages/student/ExamSession.tsx";
+import ExamResults from "./pages/student/ExamResults.tsx";
+import ExamHistory from "./pages/student/History.tsx";
+import Leaderboard from "./pages/student/Leaderboard.tsx";
+import Achievements from "./pages/student/Achievements.tsx";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +60,16 @@ const App = () => (
             <Route path="/admin/review" element={<AdminReview />} />
             <Route path="/admin/questions" element={<AdminQuestions />} />
             <Route path="/admin/analysis" element={<AdminAnalysis />} />
+
+            {/* Student */}
+            <Route path="/app" element={<StudentDashboard />} />
+            <Route path="/app/settings" element={<StudentSettings />} />
+            <Route path="/app/exam/start" element={<ExamStart />} />
+            <Route path="/app/exam/session" element={<ExamSession />} />
+            <Route path="/app/results/:id" element={<ExamResults />} />
+            <Route path="/app/history" element={<ExamHistory />} />
+            <Route path="/app/leaderboard" element={<Leaderboard />} />
+            <Route path="/app/achievements" element={<Achievements />} />
 
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
