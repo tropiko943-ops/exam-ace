@@ -1,4 +1,4 @@
-import { AppShell } from "@/components/shell/app-shell";
+import { AdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { ChartCard } from "@/components/shared/chart-card";
@@ -22,7 +22,7 @@ const weekly = [
 
 export default function AdminDashboard() {
   return (
-    <AppShell role="admin" userName="Maria Santos">
+    <AdminShell userName="Maria Santos">
       <PageHeader
         title="Admin overview"
         description="Track OCR intake, review queue, and question bank health."
@@ -74,6 +74,6 @@ export default function AdminDashboard() {
           </CardContent>
         </Card>
       </div>
-    </AppShell>
+    </AdminShell>
   );
 }

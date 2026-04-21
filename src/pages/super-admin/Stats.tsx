@@ -1,4 +1,4 @@
-import { AppShell } from "@/components/shell/app-shell";
+import { SuperAdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { ChartCard } from "@/components/shared/chart-card";
@@ -28,7 +28,7 @@ const roleDistro = [
 
 export default function SuperAdminStats() {
   return (
-    <AppShell role="super-admin" userName="Dr. Reyes">
+    <SuperAdminShell userName="Dr. Reyes">
       <PageHeader
         title="Statistics & reports"
         description="Aggregated insights and exportable reports for documentation."
@@ -127,6 +127,6 @@ export default function SuperAdminStats() {
           </div>
         </TabsContent>
       </Tabs>
-    </AppShell>
+    </SuperAdminShell>
   );
 }

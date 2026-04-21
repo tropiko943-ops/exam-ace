@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { AppShell } from "@/components/shell/app-shell";
+import { StudentShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,7 +16,7 @@ export default function ExamHistory() {
   }));
 
   return (
-    <AppShell role="student">
+    <StudentShell>
       <PageHeader title="Exam history" description="Track your progress over time." />
 
       <Card className="border-border/50 mb-6">
@@ -44,21 +44,20 @@ export default function ExamHistory() {
       <Card className="border-border/50">
         <CardHeader><CardTitle className="text-base font-display">All sessions</CardTitle></CardHeader>
         <CardContent className="px-0">
-          {/* Mobile cards */}
-          <div className="md:hidden space-y-2 px-4">
+          <div className="space-y-2 px-4 md:hidden">
             {mockSessions.map((s) => {
               const p = Math.round((s.score / s.total) * 100);
               return (
-                <Link key={s.id} to={`/app/results/${s.id}`} className="block p-3 rounded-lg border border-border hover:bg-secondary/40">
-                  <div className="flex justify-between mb-1">
-                    <span className="font-semibold text-sm">{s.id}</span>
+                <Link key={s.id} to={`/app/results/${s.id}`} className="block rounded-lg border border-border p-3 hover:bg-secondary/40">
+                  <div className="mb-1 flex justify-between">
+                    <span className="text-sm font-semibold">{s.id}</span>
                     <Badge variant="outline">{s.difficulty}</Badge>
                   </div>
-                  <div className="flex justify-between text-xs text-muted-foreground mb-2">
+                  <div className="mb-2 flex justify-between text-xs text-muted-foreground">
                     <span>{s.date}</span>
                     <span>{s.duration}</span>
                   </div>
-                  <div className="flex justify-between items-center">
+                  <div className="flex items-center justify-between">
                     <span className="font-display font-bold">{s.score}/{s.total}</span>
                     <span className="text-sm font-medium">{p}%</span>
                   </div>
@@ -67,7 +66,6 @@ export default function ExamHistory() {
             })}
           </div>
 
-          {/* Desktop table */}
           <div className="hidden md:block">
             <Table>
               <TableHeader>
@@ -89,7 +87,7 @@ export default function ExamHistory() {
                       <TableCell className="text-muted-foreground">{s.date}</TableCell>
                       <TableCell><Badge variant="outline">{s.difficulty}</Badge></TableCell>
                       <TableCell className="text-muted-foreground">{s.duration}</TableCell>
-                      <TableCell className="text-right font-display font-bold">{s.score}/{s.total} <span className="text-muted-foreground font-sans font-normal text-xs">({p}%)</span></TableCell>
+                      <TableCell className="text-right font-display font-bold">{s.score}/{s.total} <span className="font-sans text-xs font-normal text-muted-foreground">({p}%)</span></TableCell>
                       <TableCell className="text-right">
                         <Button variant="ghost" size="sm" asChild className="gap-1">
                           <Link to={`/app/results/${s.id}`}>View <ArrowRight className="h-3 w-3" /></Link>
@@ -103,6 +101,6 @@ export default function ExamHistory() {
           </div>
         </CardContent>
       </Card>
-    </AppShell>
+    </StudentShell>
   );
 }

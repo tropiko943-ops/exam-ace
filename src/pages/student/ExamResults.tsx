@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { AppShell } from "@/components/shell/app-shell";
+import { StudentShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,10 +18,10 @@ interface LatestResult {
   durationSec: number;
 }
 
-function fmtDuration(s: number) {
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  return `${h}h ${m}m`;
+function formatDuration(seconds: number) {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return `${hours}h ${minutes}m`;
 }
 
 export default function ExamResults() {
@@ -42,28 +42,29 @@ export default function ExamResults() {
         date: new Date().toISOString().slice(0, 10),
         score: latest.score,
         total: latest.total,
-        duration: fmtDuration(latest.durationSec),
+        duration: formatDuration(latest.durationSec),
         difficulty: "Medium" as const,
         subjectBreakdown: mockSessions[0].subjectBreakdown,
       };
     }
-    return mockSessions.find((s) => s.id === id) ?? mockSessions[0];
+
+    return mockSessions.find((entry) => entry.id === id) ?? mockSessions[0];
   }, [id, latest]);
 
-  const pct = Math.round((session.score / session.total) * 100);
-  const passed = pct >= 75;
+  const percentage = Math.round((session.score / session.total) * 100);
+  const passed = percentage >= 75;
 
   return (
-    <AppShell role="student">
+    <StudentShell>
       <PageHeader
         title="Exam results"
-        description={`${session.id} · ${session.date}`}
+        description={`${session.id} • ${session.date}`}
         actions={
-          <div className="flex gap-2">
-            <Button variant="outline" asChild>
+          <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
+            <Button variant="outline" asChild className="w-full sm:w-auto">
               <Link to="/app/history">All sessions</Link>
             </Button>
-            <Button asChild className="gap-2">
+            <Button asChild className="w-full gap-2 sm:w-auto">
               <Link to="/app/exam/start"><RotateCcw className="h-4 w-4" /> Take another</Link>
             </Button>
           </div>
@@ -71,48 +72,51 @@ export default function ExamResults() {
       />
 
       {passed ? (
-        <MotivationalBanner variant="success" message={`Outstanding — ${pct}% accuracy puts you on the LET track!`} className="mb-6" />
+        <MotivationalBanner variant="success" message={`Outstanding. ${percentage}% accuracy puts you on the LET track.`} />
       ) : (
-        <MotivationalBanner variant="info" message="Solid effort. Review the weakest subjects and try again." className="mb-6" />
+        <MotivationalBanner variant="info" message="Solid effort. Review the weakest subjects and try again." />
       )}
 
-      <div className="grid lg:grid-cols-3 gap-4 mb-6">
-        <Card className="lg:col-span-1 border-border/50 bg-gradient-hero text-primary-foreground">
-          <CardContent className="p-6 text-center space-y-3">
-            <div className="h-14 w-14 mx-auto rounded-2xl bg-accent/20 backdrop-blur flex items-center justify-center">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
+        <Card className="border-border/50 gradient-hero text-primary-foreground sm:col-span-2 xl:col-span-1">
+          <CardContent className="space-y-3 p-6 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20 backdrop-blur">
               <Trophy className="h-7 w-7 text-accent" />
             </div>
             <div>
-              <p className="text-xs uppercase tracking-wide opacity-80 mb-1">Final score</p>
-              <p className="font-display text-5xl font-bold">{session.score}<span className="text-2xl opacity-70">/{session.total}</span></p>
-              <p className="text-sm opacity-90 mt-1">{pct}% accuracy</p>
+              <p className="mb-1 text-xs uppercase tracking-wide opacity-80">Final score</p>
+              <p className="font-display text-5xl font-bold">
+                {session.score}
+                <span className="text-2xl opacity-70">/{session.total}</span>
+              </p>
+              <p className="mt-1 text-sm opacity-90">{percentage}% accuracy</p>
             </div>
           </CardContent>
         </Card>
-        <div className="lg:col-span-2 grid sm:grid-cols-3 gap-4">
-          <StatCard label="Duration" value={session.duration} icon={Clock} accent="primary" />
-          <StatCard label="Correct" value={session.score} icon={CheckCircle2} accent="success" />
-          <StatCard label="Difficulty" value={session.difficulty} icon={Flag} accent="warning" />
-        </div>
+        <StatCard label="Duration" value={session.duration} icon={Clock} accent="primary" />
+        <StatCard label="Correct" value={session.score} icon={CheckCircle2} accent="success" />
+        <StatCard label="Difficulty" value={session.difficulty} icon={Flag} accent="warning" />
       </div>
 
-      <Card className="border-border/50 mb-6">
-        <CardHeader><CardTitle className="text-base font-display">Performance by subject</CardTitle></CardHeader>
+      <Card className="border-border/50">
+        <CardHeader>
+          <CardTitle className="text-base font-display">Performance by subject</CardTitle>
+        </CardHeader>
         <CardContent className="space-y-4">
-          {session.subjectBreakdown.map((s) => {
-            const p = Math.round((s.correct / s.total) * 100);
+          {session.subjectBreakdown.map((subject) => {
+            const subjectPercentage = Math.round((subject.correct / subject.total) * 100);
             return (
-              <div key={s.subject} className="space-y-1.5">
+              <div key={subject.subject} className="space-y-1.5">
                 <div className="flex justify-between text-sm">
-                  <span className="font-medium">{s.subject}</span>
-                  <span className="text-muted-foreground">{s.correct}/{s.total} · {p}%</span>
+                  <span className="font-medium">{subject.subject}</span>
+                  <span className="text-muted-foreground">{subject.correct}/{subject.total} • {subjectPercentage}%</span>
                 </div>
-                <Progress value={p} className="h-2" />
+                <Progress value={subjectPercentage} className="h-2" />
               </div>
             );
           })}
         </CardContent>
       </Card>
-    </AppShell>
+    </StudentShell>
   );
 }

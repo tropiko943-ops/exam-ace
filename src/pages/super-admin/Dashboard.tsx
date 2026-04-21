@@ -1,4 +1,4 @@
-import { AppShell } from "@/components/shell/app-shell";
+import { SuperAdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { ChartCard } from "@/components/shared/chart-card";
@@ -36,7 +36,7 @@ const subjects = [
 
 export default function SuperAdminDashboard() {
   return (
-    <AppShell role="super-admin" userName="Dr. Reyes">
+    <SuperAdminShell userName="Dr. Reyes">
       <PageHeader
         title="System overview"
         description="Real-time summary of users, content, and activity across DSSC Reviewer."
@@ -105,6 +105,6 @@ export default function SuperAdminDashboard() {
           </ResponsiveContainer>
         </ChartCard>
       </div>
-    </AppShell>
+    </SuperAdminShell>
   );
 }

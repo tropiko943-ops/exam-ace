@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AppShell } from "@/components/shell/app-shell";
+import { AdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { FilterBar } from "@/components/shared/filter-bar";
 import { DataTableShell } from "@/components/shared/data-table-shell";
@@ -68,7 +68,7 @@ export default function AdminQuestions() {
   };
 
   return (
-    <AppShell role="admin" userName="Maria Santos">
+    <AdminShell userName="Maria Santos">
       <PageHeader
         title="Question bank"
         description="Browse, classify, archive and reactivate questions across subjects."
@@ -217,6 +217,6 @@ export default function AdminQuestions() {
           )}
         </SheetContent>
       </Sheet>
-    </AppShell>
+    </AdminShell>
   );
 }

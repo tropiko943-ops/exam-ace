@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppShell } from "@/components/shell/app-shell";
+import { AdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { FilterBar } from "@/components/shared/filter-bar";
 import { StatCard } from "@/components/shared/stat-card";
@@ -49,7 +49,7 @@ export default function AdminAnalysis() {
   });
 
   return (
-    <AppShell role="admin" userName="Maria Santos">
+    <AdminShell userName="Maria Santos">
       <PageHeader
         title="Item analysis"
         description="CTT-based difficulty, discrimination, distractors, and reliability."
@@ -245,6 +245,6 @@ export default function AdminAnalysis() {
           )}
         </SheetContent>
       </Sheet>
-    </AppShell>
+    </AdminShell>
   );
 }

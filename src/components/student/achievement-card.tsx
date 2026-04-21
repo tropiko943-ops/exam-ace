@@ -28,7 +28,7 @@ export function AchievementCard({ achievement }: { achievement: Achievement }) {
             className={cn(
               "h-11 w-11 rounded-xl flex items-center justify-center",
               achievement.unlocked
-                ? "bg-gradient-accent text-accent-foreground shadow-sm"
+                ? "gradient-accent text-accent-foreground shadow-sm"
                 : "bg-muted text-muted-foreground",
             )}
           >

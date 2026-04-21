@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AppShell } from "@/components/shell/app-shell";
+import { SuperAdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { FilterBar } from "@/components/shared/filter-bar";
 import { DataTableShell } from "@/components/shared/data-table-shell";
@@ -36,7 +36,7 @@ export default function SuperAdminLogs() {
   );
 
   return (
-    <AppShell role="super-admin" userName="Dr. Reyes">
+    <SuperAdminShell userName="Dr. Reyes">
       <PageHeader
         title="System logs & audit"
         description="Track user actions, security events, and system activity."
@@ -104,6 +104,6 @@ export default function SuperAdminLogs() {
           </TableBody>
         </Table>
       </DataTableShell>
-    </AppShell>
+    </SuperAdminShell>
   );
 }

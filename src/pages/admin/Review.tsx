@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { AppShell } from "@/components/shell/app-shell";
+import { AdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { FilterBar } from "@/components/shared/filter-bar";
 import { ConfidenceBar } from "@/components/shared/confidence-bar";
@@ -49,7 +49,7 @@ export default function AdminReview() {
   const remaining = items.filter((i) => i.status === "ready").length;
 
   return (
-    <AppShell role="admin" userName="Maria Santos">
+    <AdminShell userName="Maria Santos">
       <PageHeader
         title="Review queue"
         description={`${remaining} question(s) awaiting review`}
@@ -210,6 +210,6 @@ export default function AdminReview() {
           )}
         </div>
       )}
-    </AppShell>
+    </AdminShell>
   );
 }

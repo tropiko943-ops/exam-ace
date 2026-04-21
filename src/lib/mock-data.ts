@@ -3,8 +3,8 @@ export type AdminUser = {
   id: string;
   name: string;
   email: string;
-  role: "Admin" | "Student" | "Super Admin";
-  status: "active" | "archived";
+  role: "Admin" | "Student";
+  status: "pending" | "active" | "rejected" | "archived";
   joined: string;
   lastActive: string;
 };
@@ -12,9 +12,9 @@ export type AdminUser = {
 export const mockUsers: AdminUser[] = [
   { id: "U-1001", name: "Maria Santos", email: "msantos@dssc.edu.ph", role: "Admin", status: "active", joined: "2024-08-12", lastActive: "2 hours ago" },
   { id: "U-1002", name: "Juan dela Cruz", email: "jdelacruz@dssc.edu.ph", role: "Student", status: "active", joined: "2024-09-01", lastActive: "10 min ago" },
-  { id: "U-1003", name: "Ana Reyes", email: "areyes@dssc.edu.ph", role: "Student", status: "active", joined: "2024-09-04", lastActive: "1 day ago" },
+  { id: "U-1003", name: "Ana Reyes", email: "areyes@dssc.edu.ph", role: "Student", status: "pending", joined: "2024-09-04", lastActive: "Awaiting approval" },
   { id: "U-1004", name: "Carlo Mendoza", email: "cmendoza@dssc.edu.ph", role: "Admin", status: "active", joined: "2024-07-22", lastActive: "5 hours ago" },
-  { id: "U-1005", name: "Liza Bautista", email: "lbautista@dssc.edu.ph", role: "Student", status: "archived", joined: "2024-06-18", lastActive: "3 weeks ago" },
+  { id: "U-1005", name: "Liza Bautista", email: "lbautista@dssc.edu.ph", role: "Student", status: "rejected", joined: "2024-06-18", lastActive: "Registration denied" },
   { id: "U-1006", name: "Marco Villanueva", email: "mvillanueva@dssc.edu.ph", role: "Student", status: "active", joined: "2024-10-11", lastActive: "30 min ago" },
   { id: "U-1007", name: "Patricia Lim", email: "plim@dssc.edu.ph", role: "Student", status: "active", joined: "2024-09-29", lastActive: "Just now" },
   { id: "U-1008", name: "Diego Tan", email: "dtan@dssc.edu.ph", role: "Admin", status: "active", joined: "2024-05-30", lastActive: "Yesterday" },

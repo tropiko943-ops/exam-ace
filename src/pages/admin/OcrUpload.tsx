@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { AppShell } from "@/components/shell/app-shell";
+import { AdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { UploadZone } from "@/components/shared/upload-zone";
 import { DataTableShell } from "@/components/shared/data-table-shell";
@@ -24,7 +24,7 @@ export default function AdminOcr() {
   const [batch, setBatch] = useState([{ id: 1, text: "", a: "", b: "", c: "", d: "", answer: "A" }]);
 
   return (
-    <AppShell role="admin" userName="Maria Santos">
+    <AdminShell userName="Maria Santos">
       <PageHeader
         title="Question intake"
         description="Upload documents for OCR extraction or add questions manually in batch."
@@ -163,6 +163,6 @@ export default function AdminOcr() {
           </Card>
         </TabsContent>
       </Tabs>
-    </AppShell>
+    </AdminShell>
   );
 }
