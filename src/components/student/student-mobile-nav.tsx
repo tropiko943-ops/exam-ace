@@ -1,12 +1,12 @@
 import { NavLink } from "@/components/NavLink";
-import { BookOpen, History, LayoutDashboard, Settings, Trophy } from "lucide-react";
+import { BookOpen, Brain, History, LayoutDashboard, Trophy } from "lucide-react";
 
 const items = [
-  { title: "Home", url: "/app", icon: LayoutDashboard, end: true },
-  { title: "Exam", url: "/app/exam/start", icon: BookOpen },
-  { title: "History", url: "/app/history", icon: History },
-  { title: "Ranks", url: "/app/leaderboard", icon: Trophy },
-  { title: "Settings", url: "/app/settings", icon: Settings },
+  { title: "Home", url: "/student", icon: LayoutDashboard, end: true },
+  { title: "Exam", url: "/student/exams", icon: BookOpen },
+  { title: "History", url: "/student/exams/history", icon: History },
+  { title: "Mastery", url: "/student/mastery", icon: Brain },
+  { title: "Ranks", url: "/student/leaderboards", icon: Trophy },
 ];
 
 export function StudentMobileNav() {

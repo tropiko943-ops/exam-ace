@@ -35,8 +35,8 @@ const topbarConfig: Record<
   student: {
     userRole: "Student",
     searchPlaceholder: "Search exams, scores, or badges...",
-    profilePath: "/app/settings",
-    secondaryPath: "/app/history",
+    profilePath: "/student/profile",
+    secondaryPath: "/student/exams/history",
     secondaryLabel: "Exam history",
     notifications: [
       { title: "New streak milestone is ready to claim", time: "5 minutes ago" },
@@ -48,7 +48,7 @@ const topbarConfig: Record<
     userRole: "Admin",
     searchPlaceholder: "Search uploads, reviews, or questions...",
     profilePath: "/admin/settings",
-    secondaryPath: "/admin/review",
+    secondaryPath: "/admin/question-review",
     secondaryLabel: "Review queue",
     notifications: [
       { title: "12 OCR uploads need review", time: "5 minutes ago" },
@@ -145,7 +145,7 @@ export function Topbar({ role = "student", userName = "Juan dela Cruz" }: Topbar
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link to="/auth/sign-in">Sign out</Link>
+              <Link to="/login">Sign out</Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
