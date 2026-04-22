@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { StudentShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
+import { ProfileReadinessCard } from "@/components/shared/profile-readiness-card";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -11,30 +12,41 @@ import { RankWidget } from "@/components/student/rank-widget";
 import { MotivationalBanner } from "@/components/student/motivational-banner";
 import { mockSessions, mockLeaderboard, weeklyActivity } from "@/lib/student-mock";
 import { Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { loadProfile } from "@/lib/profile-storage";
 
 export default function StudentDashboard() {
+  const profile = loadProfile();
   const last = mockSessions[0];
   const me = mockLeaderboard.find((entry) => entry.isMe);
   const accuracy = Math.round((last.score / last.total) * 100);
+  const ready = profile.readinessPercent >= 100;
 
   return (
-    <StudentShell>
+    <StudentShell userName={profile.fullName}>
       <PageHeader
-        title="Welcome back, Juan"
+        title={`Welcome back, ${profile.fullName.split(" ")[0]}`}
         description="Stay on track. Your next mock exam is one tap away."
         actions={
-          <Button asChild size="lg" className="w-full gap-2 sm:w-auto">
-            <Link to="/app/exam/start">
-              <BookOpen className="h-4 w-4" /> Take a mock exam
-            </Link>
+          <Button asChild={ready} size="lg" className="w-full gap-2 sm:w-auto" disabled={!ready}>
+            {ready ? (
+              <Link to="/student/exams">
+                <BookOpen className="h-4 w-4" /> Start Mock Exam
+              </Link>
+            ) : (
+              <span className="flex items-center gap-2"><BookOpen className="h-4 w-4" /> Start Mock Exam</span>
+            )}
           </Button>
         }
       />
 
-      <MotivationalBanner
-        variant="success"
-        message="You're on a 7-day streak. Keep it up to unlock the Marathoner badge."
-      />
+      <ProfileReadinessCard percent={profile.readinessPercent} missing={profile.missingFields} />
+
+      {ready && (
+        <MotivationalBanner
+          variant="success"
+          message="You're on a 7-day streak. Keep it up to unlock the Marathoner badge."
+        />
+      )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
         <StatCard label="Last score" value={`${last.score}/${last.total}`} icon={Target} accent="primary" hint={`${accuracy}% accuracy`} />
@@ -73,7 +85,7 @@ export default function StudentDashboard() {
             <CardHeader className="flex-row items-center justify-between pb-2">
               <CardTitle className="text-base font-display">Recent exams</CardTitle>
               <Button variant="ghost" size="sm" asChild className="gap-1">
-                <Link to="/app/history">View all <ArrowRight className="h-3 w-3" /></Link>
+                <Link to="/student/exams/history">View all <ArrowRight className="h-3 w-3" /></Link>
               </Button>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -82,7 +94,7 @@ export default function StudentDashboard() {
                 return (
                   <Link
                     key={session.id}
-                    to={`/app/results/${session.id}`}
+                    to={`/student/exams/${session.id}/review`}
                     className="flex items-center justify-between gap-3 rounded-xl p-3 transition-smooth hover:bg-secondary/50"
                   >
                     <div className="min-w-0">
@@ -107,7 +119,7 @@ export default function StudentDashboard() {
             <CardHeader className="flex-row items-center justify-between pb-2">
               <CardTitle className="text-base font-display">Top this week</CardTitle>
               <Button variant="ghost" size="sm" asChild className="gap-1">
-                <Link to="/app/leaderboard">All <ArrowRight className="h-3 w-3" /></Link>
+                <Link to="/student/leaderboards">All <ArrowRight className="h-3 w-3" /></Link>
               </Button>
             </CardHeader>
             <CardContent className="space-y-2">
