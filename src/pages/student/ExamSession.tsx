@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -25,9 +25,18 @@ import { ChevronLeft, ChevronRight, Clock, Flag, LayoutGrid, X } from "lucide-re
 import { cn } from "@/lib/utils";
 
 const TOTAL = 150;
-const DURATION_SEC = 3 * 60 * 60; // 3h
+const DURATION_SEC = 3 * 60 * 60;
+const ACTIVE_KEY = "dssc-active-exam";
 
 type AnswerKey = "A" | "B" | "C" | "D";
+
+type Persisted = {
+  id: string;
+  index: number;
+  answers: Record<number, AnswerKey>;
+  flagged: number[];
+  startedAt: number;
+};
 
 function formatTime(s: number) {
   const h = Math.floor(s / 3600);
@@ -36,19 +45,59 @@ function formatTime(s: number) {
   return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
 }
 
+function loadPersisted(id: string): Persisted {
+  try {
+    const raw = sessionStorage.getItem(ACTIVE_KEY);
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (p.id === id) {
+        return {
+          id,
+          index: p.index ?? 0,
+          answers: p.answers ?? {},
+          flagged: p.flagged ?? [],
+          startedAt: p.startedAt ?? Date.now(),
+        };
+      }
+    }
+  } catch { /* ignore */ }
+  const fresh: Persisted = { id, index: 0, answers: {}, flagged: [], startedAt: Date.now() };
+  sessionStorage.setItem(ACTIVE_KEY, JSON.stringify(fresh));
+  return fresh;
+}
+
 export default function ExamSession() {
   const navigate = useNavigate();
+  const { examSession } = useParams();
+  const sessionId = examSession ?? `S-${Date.now().toString().slice(-6)}`;
+  const persisted = useMemo(() => loadPersisted(sessionId), [sessionId]);
+
   const questions = useMemo(() => generateMockExam(TOTAL), []);
-  const [idx, setIdx] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, AnswerKey>>({});
-  const [flagged, setFlagged] = useState<Set<number>>(new Set());
+  const [idx, setIdx] = useState(persisted.index);
+  const [answers, setAnswers] = useState<Record<number, AnswerKey>>(persisted.answers);
+  const [flagged, setFlagged] = useState<Set<number>>(new Set(persisted.flagged));
   const [feedback, setFeedback] = useState<{ correct: boolean; message: string } | null>(null);
   const [difficultyTrend, setDifficultyTrend] = useState<"up" | "down" | "same">("same");
-  const [timeLeft, setTimeLeft] = useState(DURATION_SEC);
+  const elapsedAtMount = Math.floor((Date.now() - persisted.startedAt) / 1000);
+  const [timeLeft, setTimeLeft] = useState(Math.max(0, DURATION_SEC - elapsedAtMount));
   const feedbackTimer = useRef<number | null>(null);
 
   const current = questions[idx];
   const answered = Object.keys(answers).length;
+
+  // Persist on every meaningful change.
+  useEffect(() => {
+    sessionStorage.setItem(
+      ACTIVE_KEY,
+      JSON.stringify({
+        id: sessionId,
+        index: idx,
+        answers,
+        flagged: Array.from(flagged),
+        startedAt: persisted.startedAt,
+      }),
+    );
+  }, [sessionId, idx, answers, flagged, persisted.startedAt]);
 
   useEffect(() => {
     const t = window.setInterval(() => setTimeLeft((s) => Math.max(0, s - 1)), 1000);
@@ -93,17 +142,19 @@ export default function ExamSession() {
     sessionStorage.setItem(
       "lastResult",
       JSON.stringify({
+        id: sessionId,
         score: correctCount,
         total: TOTAL,
         answered,
         flagged: flagged.size,
         durationSec: DURATION_SEC - timeLeft,
+        answers,
       }),
     );
-    navigate("/app/results/latest");
+    sessionStorage.removeItem(ACTIVE_KEY);
+    navigate(`/student/exams/${sessionId}/review`);
   };
 
-  // Adaptive next difficulty (visual hint)
   const nextDifficulty: Difficulty = useMemo(() => {
     const last = answers[idx];
     if (!last) return current.difficulty;
@@ -114,11 +165,10 @@ export default function ExamSession() {
 
   return (
     <div className="min-h-screen bg-secondary/20 flex flex-col">
-      {/* Top bar */}
       <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-lg border-b border-border">
         <div className="max-w-5xl mx-auto px-4 md:px-6 h-14 flex items-center gap-3">
           <Logo size="sm" variant="light" showText={false} />
-          <span className="font-display font-semibold text-sm hidden sm:inline">Mock Exam</span>
+          <span className="font-display font-semibold text-sm hidden sm:inline">Mock Exam · {sessionId}</span>
           <div className="ml-auto flex items-center gap-2 md:gap-3">
             <div className="flex items-center gap-1.5 text-sm font-mono tabular-nums bg-secondary px-2.5 py-1 rounded-md">
               <Clock className="h-3.5 w-3.5 text-muted-foreground" />
@@ -168,7 +218,7 @@ export default function ExamSession() {
             </Sheet>
             <AlertDialog>
               <AlertDialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="text-muted-foreground" asChild={false}>
+                <Button variant="ghost" size="icon" className="text-muted-foreground">
                   <X className="h-4 w-4" />
                 </Button>
               </AlertDialogTrigger>
@@ -176,13 +226,13 @@ export default function ExamSession() {
                 <AlertDialogHeader>
                   <AlertDialogTitle>Exit exam?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    Your progress for this session will be discarded.
+                    Your progress for this session will be saved. You can resume later from the exam page.
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
                   <AlertDialogCancel>Stay</AlertDialogCancel>
                   <AlertDialogAction asChild>
-                    <Link to="/app">Exit</Link>
+                    <Link to="/student">Save and exit</Link>
                   </AlertDialogAction>
                 </AlertDialogFooter>
               </AlertDialogContent>
@@ -198,7 +248,6 @@ export default function ExamSession() {
         </div>
       </header>
 
-      {/* Question */}
       <main className="flex-1 max-w-3xl w-full mx-auto px-4 md:px-6 py-6 md:py-10 space-y-4">
         <div className="flex flex-wrap items-center gap-2">
           <DifficultyIndicator difficulty={current.difficulty} trend={difficultyTrend} />
@@ -265,7 +314,6 @@ export default function ExamSession() {
         )}
       </main>
 
-      {/* Bottom nav */}
       <footer className="sticky bottom-0 z-30 bg-background/95 backdrop-blur-lg border-t border-border">
         <div className="max-w-3xl mx-auto px-4 md:px-6 h-16 flex items-center gap-2">
           <Button variant="outline" onClick={() => goTo(idx - 1)} disabled={idx === 0} className="gap-1.5">
