@@ -48,7 +48,7 @@ export default function ExamHistory() {
             {mockSessions.map((s) => {
               const p = Math.round((s.score / s.total) * 100);
               return (
-                <Link key={s.id} to={`/app/results/${s.id}`} className="block rounded-lg border border-border p-3 hover:bg-secondary/40">
+                <Link key={s.id} to={`/student/exams/${s.id}/review`} className="block rounded-lg border border-border p-3 hover:bg-secondary/40">
                   <div className="mb-1 flex justify-between">
                     <span className="text-sm font-semibold">{s.id}</span>
                     <Badge variant="outline">{s.difficulty}</Badge>
@@ -90,7 +90,7 @@ export default function ExamHistory() {
                       <TableCell className="text-right font-display font-bold">{s.score}/{s.total} <span className="font-sans text-xs font-normal text-muted-foreground">({p}%)</span></TableCell>
                       <TableCell className="text-right">
                         <Button variant="ghost" size="sm" asChild className="gap-1">
-                          <Link to={`/app/results/${s.id}`}>View <ArrowRight className="h-3 w-3" /></Link>
+                          <Link to={`/student/exams/${s.id}/review`}>Review <ArrowRight className="h-3 w-3" /></Link>
                         </Button>
                       </TableCell>
                     </TableRow>

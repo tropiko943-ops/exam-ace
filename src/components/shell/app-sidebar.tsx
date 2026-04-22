@@ -52,27 +52,46 @@ const navByRole: Record<AppRole, NavGroup[]> = {
     {
       label: "Review",
       items: [
-        { title: "Dashboard", url: "/app", icon: LayoutDashboard },
-        { title: "Take exam", url: "/app/exam/start", icon: BookOpen },
-        { title: "History", url: "/app/history", icon: History },
-        { title: "Leaderboard", url: "/app/leaderboard", icon: Trophy },
-        { title: "Achievements", url: "/app/achievements", icon: Award },
+        { title: "Dashboard", url: "/student", icon: LayoutDashboard },
+        { title: "Mock exam", url: "/student/exams", icon: BookOpen },
+        { title: "History", url: "/student/exams/history", icon: History },
+        { title: "Mastery", url: "/student/mastery", icon: Award },
+        { title: "Leaderboards", url: "/student/leaderboards", icon: Trophy },
       ],
     },
     {
       label: "Account",
-      items: [{ title: "Settings", url: "/app/settings", icon: Settings }],
+      items: [
+        { title: "Profile", url: "/student/profile", icon: Users },
+        { title: "Settings", url: "/student/settings", icon: Settings },
+      ],
     },
   ],
   admin: [
     {
-      label: "Question bank",
+      label: "Workflows",
       items: [
         { title: "Dashboard", url: "/admin", icon: LayoutDashboard },
-        { title: "OCR upload", url: "/admin/ocr", icon: ScanText },
-        { title: "Review queue", url: "/admin/review", icon: ListChecks },
-        { title: "Questions", url: "/admin/questions", icon: BookOpen },
-        { title: "Item analysis", url: "/admin/analysis", icon: BarChart3 },
+        { title: "Upload batches", url: "/admin/question-upload-batches", icon: ScanText },
+        { title: "Question review", url: "/admin/question-review", icon: ListChecks },
+        { title: "Classifications", url: "/admin/question-classifications", icon: Activity },
+      ],
+    },
+    {
+      label: "Question bank",
+      items: [
+        { title: "All questions", url: "/admin/questions", icon: BookOpen },
+        { title: "Item analysis", url: "/admin/item-analysis", icon: BarChart3 },
+      ],
+    },
+    {
+      label: "Academic structure",
+      items: [
+        { title: "Programs", url: "/admin/programs", icon: LibraryBig },
+        { title: "Majors", url: "/admin/majors", icon: GraduationCap },
+        { title: "Subjects", url: "/admin/subjects", icon: BookOpen },
+        { title: "Topics", url: "/admin/topics", icon: ListChecks },
+        { title: "Subtopics", url: "/admin/subtopics", icon: ListChecks },
       ],
     },
     {
@@ -109,7 +128,7 @@ const sidebarConfig: Record<
   }
 > = {
   student: {
-    homeUrl: "/app",
+    homeUrl: "/student",
     title: "Student Review",
     subtitle: "Mock Exam Workspace",
     icon: GraduationCap,
@@ -219,7 +238,7 @@ export function AppSidebar({ role = "student" }: { role?: AppRole }) {
                     >
                       <NavLink
                         to={item.url}
-                        end={["/app", "/admin", "/super-admin"].includes(item.url)}
+                        end={["/student", "/admin", "/super-admin"].includes(item.url)}
                         className={cn("flex w-full items-center", collapsed ? "h-full w-full justify-center" : "gap-3")}
                         activeClassName={cn(
                           "text-sidebar-primary",
@@ -261,7 +280,7 @@ export function AppSidebar({ role = "student" }: { role?: AppRole }) {
             collapsed ? "w-11 px-0" : "w-full justify-start gap-3 px-3",
           )}
         >
-          <Link to="/auth/sign-in" className={cn("flex w-full items-center", collapsed ? "justify-center" : "gap-3")}>
+          <Link to="/login" className={cn("flex w-full items-center", collapsed ? "justify-center" : "gap-3")}>
             <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white/[0.02] text-sidebar-foreground/70">
               <LogOut className="h-4 w-4" />
             </span>
