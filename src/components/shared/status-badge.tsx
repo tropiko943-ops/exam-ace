@@ -10,7 +10,9 @@ type Status =
   | "archived"
   | "active"
   | "failed"
-  | "draft";
+  | "draft"
+  | "queued"
+  | "cancelled";
 
 const map: Record<Status, { label: string; cls: string }> = {
   pending: { label: "Pending", cls: "bg-muted text-muted-foreground border-border" },
@@ -22,6 +24,8 @@ const map: Record<Status, { label: string; cls: string }> = {
   active: { label: "Active", cls: "bg-success/15 text-success border-success/30" },
   failed: { label: "Failed", cls: "bg-destructive/15 text-destructive border-destructive/30" },
   draft: { label: "Draft", cls: "bg-secondary text-secondary-foreground border-border" },
+  queued: { label: "Queued", cls: "bg-accent/15 text-accent border-accent/30" },
+  cancelled: { label: "Cancelled", cls: "bg-muted text-muted-foreground border-border" },
 };
 
 export function StatusBadge({ status, label, className }: { status: Status; label?: string; className?: string }) {
