@@ -2,9 +2,11 @@ import { AdminShell } from "@/components/shell/app-shell";
 import { PageHeader } from "@/components/shared/page-header";
 import { StatCard } from "@/components/shared/stat-card";
 import { ChartCard } from "@/components/shared/chart-card";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { WorkflowShortcutCard } from "@/components/shared/workflow-shortcut-card";
 import { Button } from "@/components/ui/button";
-import { ScanText, ListChecks, BookOpen, BarChart3, ArrowRight, Upload } from "lucide-react";
+import {
+  ScanText, ListChecks, BookOpen, BarChart3, Upload, FolderTree, Tags, FileStack,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Bar, BarChart, CartesianGrid, ResponsiveContainer, Tooltip, XAxis, YAxis,
@@ -27,7 +29,11 @@ export default function AdminDashboard() {
         title="Admin overview"
         description="Track OCR intake, review queue, and question bank health."
         actions={
-          <Button asChild><Link to="/app/ocr"><Upload className="h-4 w-4" />Upload questions</Link></Button>
+          <Button asChild>
+            <Link to="/admin/question-upload-batches/create">
+              <Upload className="h-4 w-4" />Upload questions
+            </Link>
+          </Button>
         }
       />
 
@@ -38,8 +44,66 @@ export default function AdminDashboard() {
         <StatCard label="Bank size" value="3,517" icon={BarChart3} accent="accent" trend={{ value: 4.1 }} />
       </div>
 
+      <div className="mb-6">
+        <h2 className="font-display text-lg font-semibold tracking-tight mb-3">Workflows</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <WorkflowShortcutCard
+            to="/admin/question-upload-batches/create"
+            icon={Upload}
+            title="Upload questions"
+            description="OCR a document or paste questions to start a new batch."
+            meta="Step 1 · Intake"
+            accent="primary"
+          />
+          <WorkflowShortcutCard
+            to="/admin/question-upload-batches"
+            icon={FileStack}
+            title="Batch monitoring"
+            description="Track OCR processing, confidence, and extracted artifacts."
+            meta="Step 2 · Process"
+            accent="accent"
+          />
+          <WorkflowShortcutCard
+            to="/admin/question-review"
+            icon={ListChecks}
+            title="Question review"
+            description="Edit stems, fix choices, validate or archive each item."
+            meta="Step 3 · Verify"
+            accent="warning"
+          />
+          <WorkflowShortcutCard
+            to="/admin/questions"
+            icon={BookOpen}
+            title="Question bank"
+            description="Browse, search and manage the full library of items."
+            meta="Step 4 · Manage"
+            accent="success"
+          />
+          <WorkflowShortcutCard
+            to="/admin/question-classifications"
+            icon={Tags}
+            title="Question classification"
+            description="Bulk assign verified questions to subject, topic, subtopic."
+            meta="Step 5 · Classify"
+            accent="primary"
+          />
+          <WorkflowShortcutCard
+            to="/admin/topics"
+            icon={FolderTree}
+            title="Topic & subtopic management"
+            description="Maintain academic structure used across the bank."
+            meta="Foundations"
+            accent="accent"
+          />
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <ChartCard className="lg:col-span-2" title="Intake activity" description="Uploaded files vs. approved questions, this week">
+        <ChartCard
+          className="lg:col-span-3"
+          title="Intake activity"
+          description="Uploaded files vs. approved questions, this week"
+        >
           <ResponsiveContainer width="100%" height={260}>
             <BarChart data={weekly} margin={{ top: 8, right: 8, left: -16, bottom: 0 }}>
               <CartesianGrid stroke="hsl(var(--border))" strokeDasharray="3 3" />
@@ -51,28 +115,6 @@ export default function AdminDashboard() {
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
-
-        <Card className="border-border/60">
-          <CardHeader>
-            <CardTitle className="font-display text-lg">Quick actions</CardTitle>
-            <CardDescription>Jump into the most common workflows.</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-2">
-            {[
-              { to: "/app/ocr", label: "Upload OCR document", icon: ScanText },
-              { to: "/app/review", label: "Review extracted questions", icon: ListChecks },
-              { to: "/app/questions", label: "Manage question bank", icon: BookOpen },
-              { to: "/app/analysis", label: "View item analysis", icon: BarChart3 },
-            ].map((a) => (
-              <Button key={a.to} asChild variant="outline" className="w-full justify-between">
-                <Link to={a.to}>
-                  <span className="flex items-center gap-2"><a.icon className="h-4 w-4" />{a.label}</span>
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </Button>
-            ))}
-          </CardContent>
-        </Card>
       </div>
     </AdminShell>
   );

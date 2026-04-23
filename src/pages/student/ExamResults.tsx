@@ -62,10 +62,10 @@ export default function ExamResults() {
         actions={
           <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row">
             <Button variant="outline" asChild className="w-full sm:w-auto">
-              <Link to="/app/history">All sessions</Link>
+              <Link to="/student/exams/history">All sessions</Link>
             </Button>
             <Button asChild className="w-full gap-2 sm:w-auto">
-              <Link to="/app/exam/start"><RotateCcw className="h-4 w-4" /> Take another</Link>
+              <Link to="/student/exams"><RotateCcw className="h-4 w-4" /> Take another</Link>
             </Button>
           </div>
         }
