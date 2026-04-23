@@ -72,7 +72,7 @@ export default function AdminQuestions() {
       <PageHeader
         title="Question bank"
         description="Browse, classify, archive and reactivate questions across subjects."
-        actions={<Button asChild><Link to="/app/ocr"><Plus className="h-4 w-4" />Add questions</Link></Button>}
+        actions={<Button asChild><Link to="/admin/question-upload-batches/create"><Plus className="h-4 w-4" />Add questions</Link></Button>}
       />
 
       <FilterBar

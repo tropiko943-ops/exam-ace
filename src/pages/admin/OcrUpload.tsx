@@ -101,7 +101,7 @@ export default function AdminOcr() {
                         <TableCell className="text-right">
                           {f.status === "ready" ? (
                             <Button asChild size="sm">
-                              <Link to="/app/review">Review<ArrowRight className="h-3.5 w-3.5" /></Link>
+                              <Link to="/admin/question-review">Review<ArrowRight className="h-3.5 w-3.5" /></Link>
                             </Button>
                           ) : f.status === "failed" ? (
                             <Button size="sm" variant="outline" onClick={() => toast.success("Re-queued")}>Retry</Button>

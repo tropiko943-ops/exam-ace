@@ -51,7 +51,7 @@ export default function ExamStart() {
 
             <div className="flex flex-col gap-3 sm:flex-row">
               <Button asChild size="lg" className="flex-1 gap-2">
-                <Link to="/app/exam/session">
+                <Link to="/student/exams">
                   <BookOpen className="h-4 w-4" /> Begin exam
                 </Link>
               </Button>
