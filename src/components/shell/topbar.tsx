@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Bell, Search } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,38 +33,38 @@ const topbarConfig: Record<
 > = {
   student: {
     userRole: "Student",
-    searchPlaceholder: "Search exams, scores, or badges...",
+    searchPlaceholder: "Search exams, scores, or badges",
     profilePath: "/student/profile",
     secondaryPath: "/student/exams/history",
     secondaryLabel: "Exam history",
     notifications: [
-      { title: "New streak milestone is ready to claim", time: "5 minutes ago" },
-      { title: "Your latest exam result has been posted", time: "18 minutes ago" },
-      { title: "Leaderboard rankings updated", time: "1 hour ago" },
+      { title: "Streak milestone ready to claim", time: "5m ago" },
+      { title: "New exam result posted", time: "18m ago" },
+      { title: "Leaderboard updated", time: "1h ago" },
     ],
   },
   admin: {
     userRole: "Admin",
-    searchPlaceholder: "Search uploads, reviews, or questions...",
+    searchPlaceholder: "Search batches, reviews, questions",
     profilePath: "/admin/settings",
     secondaryPath: "/admin/question-review",
     secondaryLabel: "Review queue",
     notifications: [
-      { title: "12 OCR uploads need review", time: "5 minutes ago" },
-      { title: "Question bank approval queue increased", time: "18 minutes ago" },
-      { title: "Item analysis refresh completed", time: "1 hour ago" },
+      { title: "12 OCR uploads need review", time: "5m ago" },
+      { title: "Approval queue increased", time: "18m ago" },
+      { title: "Item analysis refreshed", time: "1h ago" },
     ],
   },
   "super-admin": {
     userRole: "Super Admin",
-    searchPlaceholder: "Search users, logs, or system activity...",
+    searchPlaceholder: "Search users, logs, activity",
     profilePath: "/super-admin/settings",
     secondaryPath: "/super-admin/logs",
     secondaryLabel: "System logs",
     notifications: [
-      { title: "12 new users registered", time: "5 minutes ago" },
-      { title: "Question bank review is pending", time: "18 minutes ago" },
-      { title: "System logs exported successfully", time: "1 hour ago" },
+      { title: "12 new users registered", time: "5m ago" },
+      { title: "Question bank pending review", time: "18m ago" },
+      { title: "Logs exported", time: "1h ago" },
     ],
   },
 };
@@ -79,42 +78,35 @@ export function Topbar({ role = "student", userName = "Juan dela Cruz" }: Topbar
     .join("");
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center gap-3 border-b border-border/70 bg-background/88 px-3 backdrop-blur-lg sm:px-4 md:gap-4 md:px-6">
-      <SidebarTrigger />
+    <header className="sticky top-0 z-40 flex h-14 items-center gap-3 border-b border-border bg-background/85 px-4 backdrop-blur-md sm:px-6">
+      <SidebarTrigger className="h-8 w-8" />
 
-      <div className="min-w-0 md:hidden">
-        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-muted-foreground">{config.userRole}</p>
-        <p className="truncate font-display text-sm font-semibold">{userName}</p>
-      </div>
-
-      <div className="hidden max-w-md flex-1 md:block">
+      <div className="hidden max-w-sm flex-1 md:block">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <Input placeholder={config.searchPlaceholder} className="border-transparent bg-secondary/60 pl-9" />
+          <Search className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
+          <Input placeholder={config.searchPlaceholder} className="h-8 pl-8 text-[13px]" />
         </div>
       </div>
 
       <div className="flex-1 md:hidden" />
 
-      <div className="ml-auto flex items-center gap-1.5 sm:gap-2">
+      <div className="ml-auto flex items-center gap-1">
         <ThemeToggle />
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="relative rounded-full" aria-label="Open notifications">
-              <Bell className="h-[1.2rem] w-[1.2rem]" />
-              <Badge className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-accent px-1 text-[10px] text-accent-foreground">
-                {config.notifications.length}
-              </Badge>
+            <Button variant="ghost" size="icon" className="relative h-8 w-8" aria-label="Notifications">
+              <Bell className="h-4 w-4" />
+              <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-accent" />
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuLabel>Notifications</DropdownMenuLabel>
+          <DropdownMenuContent align="end" className="w-72">
+            <DropdownMenuLabel className="text-xs font-semibold">Notifications</DropdownMenuLabel>
             <DropdownMenuSeparator />
             {config.notifications.map((item) => (
-              <DropdownMenuItem key={item.title} className="flex-col items-start gap-1 py-3">
-                <span className="text-sm font-medium">{item.title}</span>
-                <span className="text-xs text-muted-foreground">{item.time}</span>
+              <DropdownMenuItem key={item.title} className="flex-col items-start gap-0.5 py-2.5">
+                <span className="text-[13px] font-medium leading-snug">{item.title}</span>
+                <span className="text-[11px] text-muted-foreground">{item.time}</span>
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -122,20 +114,20 @@ export function Topbar({ role = "student", userName = "Juan dela Cruz" }: Topbar
 
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="gap-2 rounded-full px-1.5 sm:px-2">
-              <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-primary text-xs font-semibold text-primary-foreground">
+            <Button variant="ghost" className="h-8 gap-2 rounded-full px-1.5">
+              <Avatar className="h-7 w-7">
+                <AvatarFallback className="bg-primary text-[11px] font-semibold text-primary-foreground">
                   {initials}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden flex-col items-start leading-tight md:flex">
-                <span className="text-sm font-medium">{userName}</span>
-                <span className="text-xs text-muted-foreground">{config.userRole}</span>
+                <span className="text-[13px] font-medium">{userName}</span>
+                <span className="text-[10.5px] text-muted-foreground">{config.userRole}</span>
               </div>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
-            <DropdownMenuLabel>{userName}</DropdownMenuLabel>
+          <DropdownMenuContent align="end" className="w-52">
+            <DropdownMenuLabel className="text-xs">{userName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
               <Link to={config.profilePath}>Profile settings</Link>

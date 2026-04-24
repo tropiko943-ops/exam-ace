@@ -9,21 +9,18 @@ const roles = [
     icon: GraduationCap,
     title: "I'm a Student",
     desc: "Take adaptive mock exams, track progress, and compete on the leaderboard.",
-    color: "from-accent to-warning",
   },
   {
     id: "admin",
     icon: BookOpen,
     title: "I'm an Admin",
-    desc: "Upload questions via OCR, manage the question bank, and run item analysis.",
-    color: "from-primary-glow to-accent",
+    desc: "Upload questions via OCR, manage the bank, run item analysis.",
   },
   {
     id: "super-admin",
     icon: Shield,
     title: "I'm a Super Admin",
-    desc: "Manage user accounts, audit system activity, and export reports.",
-    color: "from-primary to-primary-glow",
+    desc: "Manage user accounts, audit system activity, export reports.",
   },
 ];
 
@@ -33,34 +30,33 @@ export default function RoleSelection() {
   return (
     <AuthLayout
       title="How will you use DSSC Reviewer?"
-      subtitle="Pick the role that best describes you to get started."
+      subtitle="Pick the role that best describes you."
       footer={
         <>
           Already have an account?{" "}
-          <Link to="/auth/sign-in" className="font-medium text-primary hover:underline">
+          <Link to="/login" className="font-medium text-primary hover:underline">
             Sign in
           </Link>
         </>
       }
     >
-      <div className="space-y-3">
+      <div className="space-y-2.5">
         {roles.map((r) => (
           <button
             key={r.id}
-            onClick={() => navigate(`/auth/sign-up?role=${r.id}`)}
-            className="w-full text-left group"
+            onClick={() => navigate(r.id === "student" ? "/auth/onboarding" : `/auth/sign-up?role=${r.id}`)}
+            className="group w-full text-left"
           >
-            <Card className="overflow-hidden border-border/60 hover:border-primary/40 hover:shadow-elegant transition-smooth">
-              <div className={`h-1 bg-gradient-to-r ${r.color}`} />
-              <CardContent className="p-5 flex items-center gap-4">
-                <div className="h-12 w-12 rounded-xl bg-primary-muted flex items-center justify-center shrink-0 group-hover:scale-110 transition-smooth">
-                  <r.icon className="h-6 w-6 text-primary" />
+            <Card className="transition-smooth hover:border-foreground/12 hover:shadow-card">
+              <CardContent className="flex items-center gap-4 p-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/8 text-primary">
+                  <r.icon className="h-4 w-4" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-display font-semibold">{r.title}</div>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{r.desc}</p>
+                <div className="min-w-0 flex-1">
+                  <div className="text-[14px] font-semibold">{r.title}</div>
+                  <p className="line-clamp-2 text-xs text-muted-foreground">{r.desc}</p>
                 </div>
-                <ArrowRight className="h-5 w-5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-smooth shrink-0" />
+                <ArrowRight className="h-4 w-4 shrink-0 text-muted-foreground transition-all group-hover:translate-x-0.5 group-hover:text-foreground" />
               </CardContent>
             </Card>
           </button>

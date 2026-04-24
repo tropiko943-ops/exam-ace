@@ -21,31 +21,31 @@ export function ProfileReadinessCard({
   const ready = percent >= 100;
 
   return (
-    <Card className={cn("border-border/60", ready ? "bg-success/5" : "bg-warning/5", className)}>
+    <Card className={cn(className)}>
       <CardContent className="flex flex-col gap-4 p-5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-start gap-3">
           <div
             className={cn(
-              "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl",
-              ready ? "bg-success/15 text-success" : "bg-warning/15 text-warning",
+              "flex h-9 w-9 shrink-0 items-center justify-center rounded-lg",
+              ready ? "bg-success/10 text-success" : "bg-warning/10 text-warning",
             )}
           >
-            {ready ? <CheckCircle2 className="h-5 w-5" /> : <AlertCircle className="h-5 w-5" />}
+            {ready ? <CheckCircle2 className="h-4 w-4" /> : <AlertCircle className="h-4 w-4" />}
           </div>
           <div className="min-w-0 space-y-1.5">
-            <p className="font-display text-sm font-semibold sm:text-base">
-              {ready ? "Profile is ready for exams" : "Complete your profile to start exams"}
+            <p className="text-sm font-semibold">
+              {ready ? "Profile complete" : "Complete your profile to start exams"}
             </p>
-            <p className="text-xs text-muted-foreground sm:text-sm">
+            <p className="text-xs leading-relaxed text-muted-foreground">
               {ready
                 ? "All required academic info is on file."
                 : missing.length > 0
-                ? `Still needed: ${missing.join(", ")}`
-                : "Add your program, year level, and student number to continue."}
+                ? `Missing: ${missing.join(", ")}`
+                : "Add program, year level, and student number."}
             </p>
-            <div className="flex items-center gap-2 pt-1">
-              <Progress value={percent} className="h-1.5 max-w-[220px]" />
-              <span className="text-xs font-medium text-muted-foreground">{percent}%</span>
+            <div className="flex items-center gap-2 pt-0.5">
+              <Progress value={percent} className="h-1 max-w-[200px]" />
+              <span className="text-xs font-medium tabular-nums text-muted-foreground">{percent}%</span>
             </div>
           </div>
         </div>

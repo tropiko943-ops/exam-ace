@@ -12,46 +12,43 @@ interface AuthLayoutProps {
 
 export function AuthLayout({ children, title, subtitle, footer }: AuthLayoutProps) {
   return (
-    <div className="min-h-screen grid lg:grid-cols-2">
+    <div className="grid min-h-screen lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
       {/* Visual side */}
-      <div className="relative hidden lg:flex flex-col justify-between gradient-hero p-12 text-primary-foreground overflow-hidden">
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute -top-24 -left-24 h-96 w-96 rounded-full bg-white/20 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-accent/30 blur-3xl" />
-        </div>
+      <div className="relative hidden flex-col justify-between gradient-hero p-12 text-primary-foreground lg:flex">
+        <div className="absolute inset-0 bg-dot-grid opacity-15" />
         <div className="relative z-10">
           <Link to="/">
             <Logo variant="light" />
           </Link>
         </div>
-        <div className="relative z-10 space-y-6 max-w-md">
-          <h2 className="font-display text-4xl font-bold leading-tight text-balance">
+        <div className="relative z-10 max-w-md space-y-6">
+          <h2 className="font-display text-[34px] font-semibold leading-[1.15] tracking-tight text-balance">
             Prepare smarter for your semestral mock exam.
           </h2>
-          <p className="text-primary-foreground/80 text-lg leading-relaxed">
-            Adaptive reviewers, OCR-powered question banks, and gamified learning—built for Davao del Sur State College Education students.
+          <p className="text-[15px] leading-relaxed text-primary-foreground/75">
+            Adaptive reviewers, OCR question banks, and gamified learning — built for Davao del Sur State College Education students.
           </p>
-          <div className="grid grid-cols-3 gap-4 pt-4">
+          <div className="grid grid-cols-3 gap-3 pt-2">
             {[
-              { value: "150", label: "Questions / exam" },
+              { value: "150", label: "Questions per exam" },
               { value: "80%+", label: "OCR accuracy" },
               { value: "24/7", label: "Practice access" },
             ].map((s) => (
-              <div key={s.label} className="rounded-lg bg-white/10 backdrop-blur p-4">
-                <div className="font-display text-2xl font-bold">{s.value}</div>
-                <div className="text-xs text-primary-foreground/70">{s.label}</div>
+              <div key={s.label} className="rounded-lg bg-white/8 p-3 backdrop-blur-sm">
+                <div className="font-display text-xl font-semibold tracking-tight">{s.value}</div>
+                <div className="text-[11px] text-primary-foreground/70">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
-        <div className="relative z-10 text-sm text-primary-foreground/60">
+        <div className="relative z-10 text-[12px] text-primary-foreground/55">
           © {new Date().getFullYear()} Davao del Sur State College
         </div>
       </div>
 
       {/* Form side */}
-      <div className="flex flex-col min-h-screen">
-        <div className="flex items-center justify-between p-6">
+      <div className="flex min-h-screen flex-col">
+        <div className="flex items-center justify-between p-5">
           <div className="lg:hidden">
             <Link to="/">
               <Logo size="sm" />
@@ -61,17 +58,17 @@ export function AuthLayout({ children, title, subtitle, footer }: AuthLayoutProp
           <ThemeToggle />
         </div>
 
-        <div className="flex-1 flex items-center justify-center px-6 py-12">
-          <div className="w-full max-w-md space-y-8 animate-fade-in-up">
-            <div className="space-y-2">
-              <h1 className="font-display text-3xl font-bold tracking-tight">{title}</h1>
-              {subtitle && <p className="text-muted-foreground">{subtitle}</p>}
+        <div className="flex flex-1 items-center justify-center px-6 py-10">
+          <div className="w-full max-w-sm space-y-7">
+            <div className="space-y-1.5">
+              <h1 className="font-display text-[26px] font-semibold tracking-tight">{title}</h1>
+              {subtitle && <p className="text-[13.5px] text-muted-foreground">{subtitle}</p>}
             </div>
             {children}
           </div>
         </div>
 
-        {footer && <div className="p-6 text-center text-sm text-muted-foreground">{footer}</div>}
+        {footer && <div className="p-6 text-center text-[13px] text-muted-foreground">{footer}</div>}
       </div>
     </div>
   );
