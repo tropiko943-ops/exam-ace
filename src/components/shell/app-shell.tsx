@@ -21,19 +21,16 @@ interface NamedShellProps {
 
 const shellConfig: Record<AppRole, { wrapperClassName: string; contentClassName: string }> = {
   student: {
-    wrapperClassName:
-      "min-h-screen bg-[radial-gradient(circle_at_top,hsl(var(--primary)/0.06),transparent_28%),linear-gradient(180deg,hsl(var(--background)),hsl(var(--secondary)/0.35))]",
-    contentClassName: "mx-auto flex w-full max-w-7xl flex-col gap-4 sm:gap-5 md:gap-6",
+    wrapperClassName: "min-h-screen bg-background",
+    contentClassName: "mx-auto flex w-full max-w-6xl flex-col gap-5",
   },
   admin: {
-    wrapperClassName:
-      "min-h-screen bg-[radial-gradient(circle_at_top_left,hsl(var(--accent)/0.08),transparent_24%),linear-gradient(180deg,hsl(var(--background)),hsl(var(--secondary)/0.5))]",
-    contentClassName: "mx-auto flex w-full max-w-[96rem] flex-col gap-4 sm:gap-5 md:gap-6",
+    wrapperClassName: "min-h-screen bg-background",
+    contentClassName: "mx-auto flex w-full max-w-[88rem] flex-col gap-5",
   },
   "super-admin": {
-    wrapperClassName:
-      "min-h-screen bg-[radial-gradient(circle_at_top_right,hsl(var(--warning)/0.10),transparent_22%),linear-gradient(180deg,hsl(var(--background)),hsl(var(--secondary)/0.6))]",
-    contentClassName: "mx-auto flex w-full max-w-[100rem] flex-col gap-4 sm:gap-5 md:gap-6",
+    wrapperClassName: "min-h-screen bg-background",
+    contentClassName: "mx-auto flex w-full max-w-[92rem] flex-col gap-5",
   },
 };
 
@@ -43,14 +40,9 @@ function RoleShell({ children, role, userName, mobileNav, contentWrapperClassNam
   return (
     <SidebarProvider className={config.wrapperClassName}>
       <AppSidebar role={role} />
-      <SidebarInset className="min-w-0">
+      <SidebarInset className="min-w-0 bg-background">
         <Topbar role={role} userName={userName} />
-        <div
-          className={cn(
-            "flex-1 px-3 pb-5 pt-3 sm:px-4 sm:pb-6 sm:pt-4 md:px-6 md:pb-8 md:pt-5 lg:px-8",
-            contentPaddingClassName,
-          )}
-        >
+        <div className={cn("flex-1 px-4 pb-8 pt-5 sm:px-6 md:px-8 md:pt-7", contentPaddingClassName)}>
           <div className={cn(config.contentClassName, contentWrapperClassName)}>{children}</div>
         </div>
         {mobileNav}
@@ -65,8 +57,8 @@ export function StudentShell({ children, userName }: NamedShellProps) {
       role="student"
       userName={userName}
       mobileNav={<StudentMobileNav />}
-      contentWrapperClassName="max-w-5xl gap-3 sm:gap-4 md:gap-5"
-      contentPaddingClassName="pb-24 sm:pb-6 md:pb-8"
+      contentWrapperClassName="max-w-5xl gap-5"
+      contentPaddingClassName="pb-24 sm:pb-8"
     >
       {children}
     </RoleShell>
