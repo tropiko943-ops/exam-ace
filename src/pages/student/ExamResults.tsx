@@ -78,18 +78,17 @@ export default function ExamResults() {
       )}
 
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        <Card className="border-border/50 gradient-hero text-primary-foreground sm:col-span-2 xl:col-span-1">
-          <CardContent className="space-y-3 p-6 text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-accent/20 backdrop-blur">
-              <Trophy className="h-7 w-7 text-accent" />
+        <Card className="gradient-hero text-primary-foreground sm:col-span-2 xl:col-span-1">
+          <CardContent className="space-y-2 p-5 text-center">
+            <div className="mx-auto flex h-10 w-10 items-center justify-center rounded-lg bg-white/12">
+              <Trophy className="h-5 w-5 text-accent" />
             </div>
             <div>
-              <p className="mb-1 text-xs uppercase tracking-wide opacity-80">Final score</p>
-              <p className="font-display text-5xl font-bold">
-                {session.score}
-                <span className="text-2xl opacity-70">/{session.total}</span>
+              <p className="mb-0.5 text-[11px] font-medium uppercase tracking-[0.14em] opacity-75">Final score</p>
+              <p className="font-display text-4xl font-semibold tracking-tight">
+                {session.score}<span className="text-xl opacity-70">/{session.total}</span>
               </p>
-              <p className="mt-1 text-sm opacity-90">{percentage}% accuracy</p>
+              <p className="mt-0.5 text-xs opacity-85">{percentage}% accuracy</p>
             </div>
           </CardContent>
         </Card>

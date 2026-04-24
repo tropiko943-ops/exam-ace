@@ -22,8 +22,8 @@ export function StreakTracker({ streak, weekDays = [true, true, true, true, fals
               <span className="text-sm text-muted-foreground">days</span>
             </div>
           </div>
-          <div className="h-12 w-12 rounded-xl gradient-accent flex items-center justify-center shadow-sm">
-            <Flame className="h-6 w-6 text-accent-foreground" />
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/12">
+            <Flame className="h-5 w-5 text-accent" />
           </div>
         </div>
         <div className="flex items-center justify-between gap-1">
