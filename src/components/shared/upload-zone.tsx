@@ -47,18 +47,18 @@ export function UploadZone({
           handleFiles(e.dataTransfer.files);
         }}
         className={cn(
-          "flex flex-col items-center justify-center gap-3 rounded-xl border-2 border-dashed border-border p-10 text-center cursor-pointer transition-smooth hover:border-primary/50 hover:bg-primary-muted/30",
-          dragOver && "border-primary bg-primary-muted/50",
+          "flex cursor-pointer flex-col items-center justify-center gap-3 rounded-lg border border-dashed border-border bg-secondary/30 p-10 text-center transition-smooth hover:border-foreground/20 hover:bg-secondary/50",
+          dragOver && "border-primary/50 bg-primary/5",
         )}
       >
-        <div className="h-14 w-14 rounded-full bg-primary-muted flex items-center justify-center">
-          <UploadCloud className="h-7 w-7 text-primary" />
+        <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-background shadow-xs">
+          <UploadCloud className="h-5 w-5 text-muted-foreground" />
         </div>
-        <div className="space-y-1">
-          <p className="font-medium">
+        <div className="space-y-0.5">
+          <p className="text-sm font-medium">
             <span className="text-primary">Click to upload</span> or drag and drop
           </p>
-          <p className="text-sm text-muted-foreground">{hint}</p>
+          <p className="text-xs text-muted-foreground">{hint}</p>
         </div>
         <input
           type="file"
@@ -74,11 +74,11 @@ export function UploadZone({
           {files.map((f, i) => (
             <li
               key={i}
-              className="flex items-center gap-3 rounded-lg border border-border bg-card p-3 text-sm"
+              className="flex items-center gap-3 rounded-md border border-border bg-card p-2.5 text-sm"
             >
-              <FileText className="h-4 w-4 text-primary shrink-0" />
-              <span className="flex-1 truncate">{f.name}</span>
-              <span className="text-xs text-muted-foreground">{(f.size / 1024).toFixed(0)} KB</span>
+              <FileText className="h-4 w-4 shrink-0 text-muted-foreground" />
+              <span className="flex-1 truncate text-[13px]">{f.name}</span>
+              <span className="text-xs text-muted-foreground tabular-nums">{(f.size / 1024).toFixed(0)} KB</span>
               <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => remove(i)}>
                 <X className="h-3.5 w-3.5" />
               </Button>

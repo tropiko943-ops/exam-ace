@@ -12,15 +12,15 @@ interface ChartCardProps {
 
 export function ChartCard({ title, description, action, children, className }: ChartCardProps) {
   return (
-    <Card className={cn("border-border/50", className)}>
-      <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0">
-        <div className="space-y-1">
-          <CardTitle className="font-display text-lg">{title}</CardTitle>
-          {description && <CardDescription>{description}</CardDescription>}
+    <Card className={cn("", className)}>
+      <CardHeader className="flex flex-row items-start justify-between gap-4 space-y-0 pb-3">
+        <div className="space-y-0.5">
+          <CardTitle className="text-[15px]">{title}</CardTitle>
+          {description && <CardDescription className="text-xs">{description}</CardDescription>}
         </div>
         {action}
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent className="pt-0">{children}</CardContent>
     </Card>
   );
 }

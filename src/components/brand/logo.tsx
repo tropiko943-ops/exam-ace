@@ -10,9 +10,9 @@ interface LogoProps {
 
 export function Logo({ className, showText = true, variant = "default", size = "md" }: LogoProps) {
   const sizes = {
-    sm: { icon: "h-7 w-7", text: "text-base", sub: "text-[10px]" },
-    md: { icon: "h-9 w-9", text: "text-lg", sub: "text-xs" },
-    lg: { icon: "h-12 w-12", text: "text-2xl", sub: "text-sm" },
+    sm: { icon: "h-7 w-7", text: "text-[15px]" },
+    md: { icon: "h-8 w-8", text: "text-base" },
+    lg: { icon: "h-10 w-10", text: "text-lg" },
   };
   const s = sizes[size];
 
@@ -20,20 +20,17 @@ export function Logo({ className, showText = true, variant = "default", size = "
     <div className={cn("flex items-center gap-2.5", className)}>
       <div
         className={cn(
-          "flex items-center justify-center rounded-lg shadow-sm",
+          "flex items-center justify-center rounded-lg",
           s.icon,
-          variant === "light" ? "bg-white/10 text-white backdrop-blur" : "gradient-hero text-primary-foreground",
+          variant === "light"
+            ? "bg-white/15 text-white backdrop-blur-sm"
+            : "bg-primary text-primary-foreground",
         )}
       >
         <GraduationCap className="h-1/2 w-1/2" />
       </div>
       {showText && (
-        <div className="flex flex-col leading-none">
-          <span className={cn("font-display font-bold tracking-tight", s.text)}>DSSC Reviewer</span>
-          <span className={cn("font-medium uppercase tracking-wider text-muted-foreground", s.sub)}>
-            Mock Exam Platform
-          </span>
-        </div>
+        <span className={cn("font-display font-semibold tracking-tight", s.text)}>DSSC Reviewer</span>
       )}
     </div>
   );
